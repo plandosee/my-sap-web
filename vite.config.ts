@@ -15,6 +15,9 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     server: {
       port: 5173, // 프론트 개발서버 포트(기본값과 동일, 명시적으로 적어둠)
+      // 5173이 이미 사용 중이면 5174 등으로 넘어가지 않고 에러를 낸다.
+      // (서버가 두 개 떠 있는 실수를 바로 알 수 있음)
+      strictPort: true,
       proxy: {
         // 브라우저에서 "/api"로 시작하는 요청을 백엔드로 대신 전달한다.
         // 예) 브라우저 요청: http://localhost:5173/api/admin/nonProcs/retrieveList.do

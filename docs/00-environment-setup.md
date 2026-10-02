@@ -88,3 +88,30 @@ export default defineConfig({
 
 > ⚠️ 이 초안으로는 실제 API 호출이 실패한다. 백엔드 경로에는 `/api`가 없기 때문이다.
 > → **02장**에서 `rewrite`를 추가해 수정한다.
+
+## 8. GitHub 저장소 연결
+
+GitHub에서 빈 저장소(README만 있어도 됨)를 만든 뒤:
+
+```bash
+git init
+git remote add origin https://github.com/plandosee/my-sap-web.git
+git fetch origin
+
+# 원격에 이미 커밋(README 등)이 있으면, 원격 커밋을 기준으로 삼는다 (작업 파일은 그대로 유지됨)
+git reset origin/main
+
+git add -A
+git commit -m "작업 내용"
+git push -u origin main     # -u : 이후로는 git push 만 입력해도 됨
+```
+
+저장소 이름을 바꿨을 때:
+
+```bash
+git remote set-url origin https://github.com/plandosee/새이름.git
+git remote -v   # 바뀐 주소 확인
+```
+
+> `LF will be replaced by CRLF` 경고는 Windows 줄바꿈 변환 안내일 뿐 문제 없다.
+> `node_modules/`는 `.gitignore`로 제외되므로, 다른 PC에서 받으면 `npm install`부터 실행한다.

@@ -113,6 +113,48 @@ interface ImportMeta {
 
 → `import.meta.env.VITE_API_BASE_URL` 입력 시 자동완성 + 오타 검사가 된다.
 
+### 5. 포트 고정 (`strictPort`)
+
+```ts
+server: {
+  port: 5173,
+  strictPort: true, // 5173이 사용 중이면 다른 포트로 넘어가지 않고 에러
+```
+
+| 포트 | 이유 |
+|---|---|
+| 5173 | Vite 기본값 |
+| 5174, 5175… | `strictPort`가 없을 때 5173이 이미 사용 중이면 자동으로 다음 번호 사용 |
+| 3000 | 예전 Create React App 기본값. 기존 MES 클라이언트는 설정에서 직접 3000 지정 |
+
+> 프록시 덕분에 프론트 포트가 바뀌어도 API 호출은 똑같이 동작한다(백엔드는 항상 8080).
+
+## env 값은 어디서 읽히나?
+
+```
+① package.json 스크립트의 --mode  →  어떤 .env.[mode] 파일을 읽을지 결정
+                                      (Vite가 자동으로 읽음, 직접 코드 작성 X)
+② vite.config.ts 의 loadEnv()      →  개발서버 프록시 주소 (VITE_PROXY_TARGET)
+③ src/ 코드의 import.meta.env      →  브라우저 코드에서 사용 (VITE_API_BASE_URL, 03장부터)
+```
+
+Vite가 읽는 순서 (뒤에 읽은 값이 앞의 값을 덮어씀):
+```
+.env  →  .env.local  →  .env.[mode]  →  .env.[mode].local
+```
+
+| 실행 명령 | 읽는 파일 | 쓰이는 값 |
+|---|---|---|
+| `npm run dev:local` | `.env.localhost` | 프록시 주소 + 브라우저 코드 값 |
+| `npm run dev` | `.env.development` | 프록시 주소 + 브라우저 코드 값 |
+| `npm run build:staging` | `.env.staging` | 브라우저 코드 값만 (프록시 없음) |
+| `npm run build` | `.env.production` | 브라우저 코드 값만 (프록시 없음) |
+
+- 빌드할 때 `import.meta.env.VITE_API_BASE_URL`은 **실제 값 `"/api"`로 치환**되어 JS 파일에 들어간다.
+  → env를 바꾸면 **다시 빌드**해야 하고, 비밀값을 넣으면 안 된다.
+- ⚠️ `.env.localhost`(우리 파일, `--mode localhost`)와 `.env.local`(Vite 예약 이름, **모든 모드**에서 읽힘)은 다른 파일이다.
+  `.env.local`은 `.gitignore`의 `*.local` 때문에 git에 안 올라가므로 개인 PC 전용 설정에 쓴다.
+
 ## 확인하기
 
 1. 백엔드(8080) 실행
