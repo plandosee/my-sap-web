@@ -227,3 +227,172 @@ textarea:focus {
   font-size: 20px;
   text-align: center;
 }
+
+/* ───────── [6장] 작은 버튼 (표 안의 수정/삭제) ───────── */
+
+.btn-sm {
+  height: 26px;
+  padding: 0 10px;
+  font-size: 13px;
+}
+
+/* ───────── [6장] 검색 영역 / 툴바 ───────── */
+
+.search-bar {
+  display: flex;
+  align-items: flex-end; /* 라벨 높이가 달라도 입력칸/버튼 아래쪽을 맞춤 */
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+}
+
+.search-bar .form-field {
+  min-width: 180px;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* 왼쪽: 건수 / 오른쪽: 버튼 */
+  margin-bottom: 8px;
+}
+
+/* ───────── [6장] 목록 표 ───────── */
+
+.table-wrap {
+  overflow-x: auto; /* 화면이 좁으면 표만 가로 스크롤 */
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse; /* 칸 사이 테두리를 한 줄로 합침 */
+}
+
+.data-table th,
+.data-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--color-border);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.data-table th {
+  background: #eef1f4;
+  font-weight: 600;
+  text-align: center;
+}
+
+.data-table tbody tr:hover {
+  background: #f7fafd;
+}
+
+.data-table td.center {
+  text-align: center;
+}
+
+/* 데이터 없음 / 로딩 */
+.data-table td.empty {
+  padding: 40px 0;
+  text-align: center;
+  color: var(--color-text-sub);
+}
+
+.row-actions {
+  display: inline-flex;
+  gap: 4px;
+}
+
+/* 사용여부 표시 */
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 12px;
+}
+
+.badge-on {
+  color: #256f3a;
+  background: #e4f4e8;
+}
+
+.badge-off {
+  color: var(--color-text-sub);
+  background: #eef1f4;
+}
+
+/* ───────── [6장] 팝업 (components/Modal.tsx) ───────── */
+
+.modal-backdrop {
+  position: fixed; /* 화면 전체를 덮음 */
+  inset: 0; /* top/right/bottom/left 모두 0 */
+  z-index: 100; /* 상단 메뉴(z-index:10)보다 위 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.modal {
+  width: 560px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 32px);
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.modal-close {
+  border: 0;
+  background: none;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--color-text-sub);
+  cursor: pointer;
+}
+
+.modal-body {
+  padding: 20px;
+  overflow-y: auto; /* 내용이 길면 본문만 스크롤 */
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 20px;
+  border-top: 1px solid var(--color-border);
+}
+
+/* 팝업 안의 입력 폼: 2열 배치 */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* 2열을 모두 차지하는 항목 (비고, 에러 메시지) */
+.form-field-full {
+  grid-column: 1 / -1;
+}
