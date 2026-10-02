@@ -1,111 +1,108 @@
+/* [4장] 전역 기본 스타일
+   - Vite 샘플 스타일을 지우고 업무 화면용 기본 스타일로 교체
+   - 색상은 :root 의 CSS 변수로 모아두고, 아래에서는 var(--이름) 으로만 사용한다.
+     (색을 바꾸고 싶으면 변수 값만 바꾸면 전체에 반영됨)
+   - 표 / 폼 / 버튼 스타일은 06장에서 추가 */
+
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --color-primary: #0a6ed1;       /* 주요 색 (SAP Fiori 계열 파랑) */
+  --color-primary-dark: #0854a0;
+  --color-danger: #d32f2f;        /* 삭제/에러 */
+  --color-text: #1d2d3e;
+  --color-text-sub: #6a7b8c;
+  --color-border: #d9dee3;
+  --color-bg: #f5f6f7;            /* 페이지 배경 */
+  --color-surface: #ffffff;       /* 카드/헤더 배경 */
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  --header-height: 52px;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+  font-family: system-ui, 'Segoe UI', 'Malgun Gothic', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-text);
+  background: var(--color-bg);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
-}
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
+/* 모든 요소의 크기 계산에 padding/border를 포함 (레이아웃 계산이 쉬워짐) */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-}
-
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+  min-width: 320px;
 }
 
 h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
+  margin: 0 0 16px;
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
+/* ───────── 공통 레이아웃 (components/Layout.tsx) ───────── */
+
+.layout-header {
+  position: sticky; /* 스크롤해도 상단에 고정 */
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  height: var(--header-height);
+  padding: 0 24px;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.layout-title {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.layout-nav {
+  display: flex;
+  gap: 4px;
+  flex: 1; /* 남은 공간을 모두 차지 → 사용자 영역이 오른쪽 끝으로 밀림 */
+}
+
+.layout-nav a {
+  padding: 6px 12px;
   border-radius: 4px;
-  color: var(--text-h);
+  color: var(--color-text-sub);
+  text-decoration: none;
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+.layout-nav a:hover {
+  background: var(--color-bg);
+}
+
+/* NavLink가 현재 주소와 일치하면 자동으로 붙이는 class */
+.layout-nav a.active {
+  color: var(--color-primary);
+  font-weight: 600;
+  background: #e8f2fc;
+}
+
+.layout-user {
+  color: var(--color-text-sub);
+}
+
+.layout-main {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-title {
+  font-size: 20px;
+}
+
+/* 화면 가운데 정렬 (로그인, 404) */
+.page-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 8px;
 }
