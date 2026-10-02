@@ -216,3 +216,5 @@ access 토큰 유효시간은 **30분**이다. 만료된 토큰으로 요청하�
 | 4 | 토큰 없으면 200 + 빈 본문 | `SecurityConfig` 인증 실패 핸들러가 상태 200일 때 아무것도 안 씀 | 빈 본문이면 로그인 페이지로 |
 | 5 | 실패도 HTTP 200 | `BaseController.getErrorResult()` | `result === false` 검사 |
 | 6 | 수정 시 `sort`를 비우면 맨 뒤로 이동 | `update`: sort 없으면 `max(sort)+1` | 수정 폼에 기존 sort 값을 채워서 보낸다 |
+| 7 | 생년월일·전화번호 형식이 틀려도 저장됨 (07장에서 발견) | `ValidationModel.validateCheck()`의 `STRING_DATE`/`STRING_TEL`/`YN`/`STRING_FORMAT` 분기가 `ValidateException.getCodeException(...)`을 **만들기만 하고 `throw`하지 않음** | 프론트에서 형식 검증 필수 (생년월일 `yyyy-MM-dd`, 전화번호 `숫자-숫자`) |
+| 8 | 같은 백엔드라도 API마다 `useYn` 처리가 다름 | 비공정은 "값 있으면 Y", 작업자는 `#{useYn}` 그대로 저장 | API별로 SQL 확인. 변환은 각 `xxxApi.ts`에서 |

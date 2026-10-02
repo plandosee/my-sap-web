@@ -396,3 +396,15 @@ textarea:focus {
 .form-field-full {
   grid-column: 1 / -1;
 }
+
+/* ───────── [7장] 더보기 버튼 ───────── */
+
+.load-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.load-more .btn {
+  min-width: 200px;
+}
