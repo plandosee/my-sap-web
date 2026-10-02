@@ -10,8 +10,14 @@
 //
 // ■ refresh 토큰(wmsRefreshToken 쿠키)은 여기서 다루지 않는다.
 //   HttpOnly 쿠키라 JS로 읽을 수 없고, 브라우저가 요청마다 자동으로 보낸다.
+//
+// [5장] 로그인한 사용자 ID도 함께 저장
+// - 로그인 응답에는 사용자 ID가 없다(accessToken만 옴). 그래서 로그인 폼에 입력한 ID를 저장해 두고
+//   새로고침 후에도 상단 메뉴에 "OOO 님"을 표시할 수 있게 한다.
+// - 화면 표시용일 뿐, 권한 판단에 쓰면 안 된다. (권한은 항상 서버가 토큰으로 판단)
 
 const ACCESS_TOKEN_KEY = 'accessToken'
+const USER_ID_KEY = 'loginUserId' // [5장]
 
 export const tokenStorage = {
   /** 저장된 access 토큰 (없으면 null) */
@@ -24,8 +30,19 @@ export const tokenStorage = {
     localStorage.setItem(ACCESS_TOKEN_KEY, token)
   },
 
-  /** access 토큰 삭제 (로그아웃, 인증 만료 시) */
+  /** [5장] 저장된 로그인 사용자 ID (없으면 null) */
+  getUserId(): string | null {
+    return localStorage.getItem(USER_ID_KEY)
+  },
+
+  /** [5장] 로그인 사용자 ID 저장 (로그인 성공 시) */
+  setUserId(userId: string): void {
+    localStorage.setItem(USER_ID_KEY, userId)
+  },
+
+  /** access 토큰 + 사용자 ID 삭제 (로그아웃, 인증 만료 시) */
   clear(): void {
     localStorage.removeItem(ACCESS_TOKEN_KEY)
+    localStorage.removeItem(USER_ID_KEY) // [5장]
   },
 }

@@ -84,6 +84,9 @@ h1 {
 }
 
 .layout-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   color: var(--color-text-sub);
 }
 
@@ -105,4 +108,122 @@ h1 {
   justify-content: center;
   min-height: 100vh;
   gap: 8px;
+}
+
+/* ───────── [5장] 버튼 ─────────
+   사용법: <button className="btn btn-primary"> */
+
+.btn {
+  height: 32px;
+  padding: 0 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--color-bg);
+}
+
+/* 요청 중 등으로 비활성화된 버튼 */
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-primary-dark);
+}
+
+.btn-danger {
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+}
+
+/* 가로 전체 너비 버튼 */
+.btn-block {
+  width: 100%;
+  height: 40px;
+}
+
+/* ───────── [5장] 입력 폼 ─────────
+   사용법: <label className="form-field"><span>라벨</span><input /></label> */
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-field > span {
+  font-size: 13px;
+  color: var(--color-text-sub);
+}
+
+input,
+select,
+textarea {
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font: inherit;
+  color: var(--color-text);
+  background: var(--color-surface);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid #b5d4f4;
+  border-color: var(--color-primary);
+}
+
+/* ───────── [5장] 메시지 ───────── */
+
+.message-error,
+.message-info {
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: 4px;
+  font-size: 13px;
+  white-space: pre-line; /* 서버 메시지의 \n 줄바꿈을 그대로 표시 */
+}
+
+.message-error {
+  color: var(--color-danger);
+  background: #fdecea;
+}
+
+.message-info {
+  color: var(--color-primary-dark);
+  background: #e8f2fc;
+}
+
+/* ───────── [5장] 로그인 화면 ───────── */
+
+.login-box {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 340px;
+  padding: 32px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+}
+
+.login-title {
+  margin: 0 0 8px;
+  font-size: 20px;
+  text-align: center;
 }

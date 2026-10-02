@@ -27,7 +27,7 @@ export interface AuthState {
  */
 const initialState: AuthState = {
   isLoggedIn: tokenStorage.get() !== null,
-  userId: null,
+  userId: tokenStorage.getUserId(), // [5장] 새로고침 후에도 사용자 ID 유지
 }
 
 const authSlice = createSlice({

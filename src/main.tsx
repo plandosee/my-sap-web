@@ -16,7 +16,12 @@ import { RouterProvider } from 'react-router'
 import { queryClient } from './api/queryClient'
 import './index.css'
 import { router } from './router'
+import { setupAuth } from './setupAuth'
 import { store } from './store'
+
+// [5장] 인증 만료 시 동작(로그아웃 + 로그인 페이지 이동)을 axios 인터셉터에 등록
+// 화면을 그리기 전에, 앱 시작 시 딱 한 번 실행한다.
+setupAuth()
 
 createRoot(document.getElementById('root')!).render(
   // StrictMode: 개발 모드에서만 잠재적인 문제를 찾기 위해 일부 동작을 2번씩 실행한다.
